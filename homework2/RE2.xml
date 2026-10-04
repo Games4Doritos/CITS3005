@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:foaf="http://xmlns.com/foaf/0.1/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:re="http://cits3005.RE.org/"
+>
+  <rdf:Description rdf:about="http://cits3005.RE.org/place/nest">
+    <rdf:type rdf:resource="http://cits3005.RE.org/place"/>
+    <foaf:name>NEST</foaf:name>
+    <re:locatedAt rdf:resource="http://cits3005.RE.org/location/raccoonCity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/irregularMutant/G">
+    <rdf:type rdf:resource="http://cits3005.RE.org/irregularMutant"/>
+    <foaf:name>G</foaf:name>
+    <re:formedFrom rdf:resource="http://cits3005.RE.org/virus/gVirus"/>
+    <re:former rdf:resource="http://cits3005.RE.org/character/williamBirkin"/>
+    <re:outcome>Decimated in an explosion</re:outcome>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/bioOrganicWeapon/t_00">
+    <rdf:type rdf:resource="http://cits3005.RE.org/bioOrganicWeapon"/>
+    <foaf:name>T-00</foaf:name>
+    <foaf:nick>Mr. X</foaf:nick>
+    <re:formedFrom rdf:resource="http://cits3005.RE.org/virus/tVirus"/>
+    <re:producedBy rdf:resource="http://cits3005.RE.org/organisation/umbrella"/>
+    <re:outcome>Killed</re:outcome>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/bioOrganicWeapon/licker">
+    <rdf:type rdf:resource="http://cits3005.RE.org/bioOrganicWeapon"/>
+    <foaf:name>Licker</foaf:name>
+    <re:formedFrom rdf:resource="http://cits3005.RE.org/virus/tVirus"/>
+    <re:producedBy rdf:resource="http://cits3005.RE.org/organisation/umbrella"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/adaWong">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Ada Wong</foaf:name>
+    <foaf:age rdf:nodeID="N3bd14cd84c66485d8a86ab161dea8473"/>
+    <re:occupation>Spy</re:occupation>
+    <re:outcome rdf:nodeID="N6367f5af3b794d828150e00c105238a7"/>
+    <foaf:member rdf:nodeID="Na3f21af41d46414eb62be725e658b27e"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/place/kendoGunShop">
+    <rdf:type rdf:resource="http://cits3005.RE.org/place"/>
+    <foaf:name>Kendo Gun Shop</foaf:name>
+    <re:locatedAt rdf:resource="http://cits3005.RE.org/location/raccoonCity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/location/raccoonCity">
+    <rdf:type rdf:resource="http://cits3005.RE.org/location"/>
+    <foaf:name>Raccoon City, USA</foaf:name>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/robertKendo">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Robert Kendo</foaf:name>
+    <foaf:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">40</foaf:age>
+    <re:occupation>Gun Shop Owner</re:occupation>
+    <re:outcome rdf:nodeID="N6367f5af3b794d828150e00c105238a7"/>
+    <foaf:based_near rdf:resource="http://cits3005.RE.org/place/kendoGunShop"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/marvinBranagh">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Marvin Branagh</foaf:name>
+    <foaf:age rdf:nodeID="N3bd14cd84c66485d8a86ab161dea8473"/>
+    <re:occupation>Police Lieutenant</re:occupation>
+    <re:outcome>Turns into a zombie</re:outcome>
+    <foaf:member rdf:resource="http://cits3005.RE.org/organisation/rpd"/>
+    <re:infectee rdf:resource="http://cits3005.RE.org/virus/tVirus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/williamBirkin">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>William Birkin</foaf:name>
+    <foaf:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">36</foaf:age>
+    <re:occupation>Chief Virologist and Researcher</re:occupation>
+    <re:outcome>Killed as G</re:outcome>
+    <foaf:member rdf:resource="http://cits3005.RE.org/organisation/umbrella"/>
+    <re:infectee rdf:resource="http://cits3005.RE.org/virus/gVirus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/benBertolucci">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Ben Bertolucci</foaf:name>
+    <foaf:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">26</foaf:age>
+    <re:occupation>Freelance Investigative Journalist</re:occupation>
+    <re:outcome>Killed by T-00</re:outcome>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/clairRedfield">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Claire Redfield</foaf:name>
+    <foaf:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">19</foaf:age>
+    <re:occupation>College Student</re:occupation>
+    <re:outcome>Survived and Escaped</re:outcome>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/virus/gVirus">
+    <rdf:type rdf:resource="http://cits3005.RE.org/virus"/>
+    <foaf:name>Golgotha Virus</foaf:name>
+    <foaf:nick>G-Virus</foaf:nick>
+    <re:producedBy rdf:resource="http://cits3005.RE.org/organisation/umbrella"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/emmaKendo">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Emma Kendo</foaf:name>
+    <foaf:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</foaf:age>
+    <re:outcome rdf:nodeID="N6367f5af3b794d828150e00c105238a7"/>
+    <re:infectee rdf:resource="http://cits3005.RE.org/virus/tVirus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/leonKennedy">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Leon Scott Kennedy</foaf:name>
+    <foaf:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">21</foaf:age>
+    <re:occupation>Rookie Police Officer</re:occupation>
+    <re:outcome>Survived and Escaped</re:outcome>
+    <foaf:member rdf:resource="http://cits3005.RE.org/organisation/rpd"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/virus/tVirus">
+    <rdf:type rdf:resource="http://cits3005.RE.org/virus"/>
+    <foaf:name>Tyrant Virus</foaf:name>
+    <foaf:nick>T-Virus</foaf:nick>
+    <re:producedBy rdf:resource="http://cits3005.RE.org/organisation/umbrella"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/irregularMutant/gCreature">
+    <rdf:type rdf:resource="http://cits3005.RE.org/irregularMutant"/>
+    <foaf:name>G-Creature</foaf:name>
+    <re:formedFrom rdf:resource="http://cits3005.RE.org/virus/gVirus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/place/rPS">
+    <rdf:type rdf:resource="http://cits3005.RE.org/place"/>
+    <foaf:name>Raccoon City Police Station</foaf:name>
+    <re:locatedAt rdf:resource="http://cits3005.RE.org/location/raccoonCity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/bioOrganicWeapon/plant43">
+    <rdf:type rdf:resource="http://cits3005.RE.org/bioOrganicWeapon"/>
+    <foaf:name>Plant 43</foaf:name>
+    <re:formedFrom rdf:resource="http://cits3005.RE.org/virus/tVirus"/>
+    <re:producedBy rdf:resource="http://cits3005.RE.org/organisation/umbrella"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/place/rORP">
+    <rdf:type rdf:resource="http://cits3005.RE.org/place"/>
+    <foaf:name>Raccoon City Orphanage</foaf:name>
+    <re:locatedAt rdf:resource="http://cits3005.RE.org/location/raccoonCity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/irregularMutant/zombie">
+    <rdf:type rdf:resource="http://cits3005.RE.org/irregularMutant"/>
+    <foaf:name>Zombie</foaf:name>
+    <re:formedFrom rdf:resource="http://cits3005.RE.org/virus/tVirus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/brianIrons">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Brian Irons</foaf:name>
+    <foaf:age rdf:nodeID="N3bd14cd84c66485d8a86ab161dea8473"/>
+    <re:occupation>Chief of Police</re:occupation>
+    <re:outcome>Dies to G-Virus parasites</re:outcome>
+    <foaf:member rdf:resource="http://cits3005.RE.org/organisation/rpd"/>
+    <foaf:based_near rdf:resource="http://cits3005.RE.org/place/rORP"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/place/sewers">
+    <rdf:type rdf:resource="http://cits3005.RE.org/place"/>
+    <foaf:name>The Sewers</foaf:name>
+    <re:locatedAt rdf:resource="http://cits3005.RE.org/location/raccoonCity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/irregularMutant/zombieDog">
+    <rdf:type rdf:resource="http://cits3005.RE.org/irregularMutant"/>
+    <foaf:name>Zombie Dog</foaf:name>
+    <re:formedFrom rdf:resource="http://cits3005.RE.org/virus/tVirus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/organisation/rpd">
+    <rdf:type rdf:resource="http://cits3005.RE.org/organisation"/>
+    <foaf:name>Raccoon City Police Department</foaf:name>
+    <foaf:status>Dismantled</foaf:status>
+    <foaf:based_near rdf:resource="http://cits3005.RE.org/place/rPS"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/annetteBirkin">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Annette Birkin</foaf:name>
+    <foaf:age rdf:nodeID="N3bd14cd84c66485d8a86ab161dea8473"/>
+    <re:occupation>Researcher</re:occupation>
+    <re:outcome>Becomes G after G-Virus injection</re:outcome>
+    <foaf:member rdf:resource="http://cits3005.RE.org/organisation/umbrella"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/organisation/umbrella">
+    <rdf:type rdf:resource="http://cits3005.RE.org/organisation"/>
+    <foaf:name>Umbrella Corporation</foaf:name>
+    <foaf:status>Operational</foaf:status>
+    <foaf:based_near rdf:resource="http://cits3005.RE.org/place/nest"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/irregularMutant/ivy">
+    <rdf:type rdf:resource="http://cits3005.RE.org/irregularMutant"/>
+    <foaf:name>Ivy</foaf:name>
+    <re:formedFrom rdf:resource="http://cits3005.RE.org/bioOrganicWeapon/plant43"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://cits3005.RE.org/character/sherryBirkin">
+    <rdf:type rdf:resource="http://cits3005.RE.org/character"/>
+    <foaf:name>Sherry Birkin</foaf:name>
+    <foaf:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">12</foaf:age>
+    <re:outcome>Survived and Escaped</re:outcome>
+    <re:infectee rdf:resource="http://cits3005.RE.org/virus/gVirus"/>
+  </rdf:Description>
+</rdf:RDF>
