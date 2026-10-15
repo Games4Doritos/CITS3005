@@ -10,14 +10,15 @@ incorrectMajors = ['Anthropolog', 'Applied Human Geograph',
                 'Indigenous Knowledge, History and Heritag', 
                 'ITLNA Italian Studie', 'ITLNB Italian Studie', 'ITLNI Italian Studie', 'JPNSB Japanese Studie', 'JPNSI Japanese Studie', 
                 'JPNSP Japanese Studie', 'Korean Studie', 'Linguistic', 'Music: Electronic Music and Sound Desig', 'Music General Studie', 
-                'Music and Societ', 'ContemporaryPopular Musi', 'Music Theatr', 'Human Sciences and Data Analytic', 'Philosoph', 
+                'Music and Societ', 'Contemporary Popular Musi', 'Music Theatr', 'Human Sciences and Data Analytic', 'Philosoph', 
                 'Philosophy, Politics and Economic', 'Artificial Intelligenc','Anatomy and Human Biolog', 'Human Science and Neuroscienc',  
                 'Chemistr', 'Geochemistr', 'Data Scienc', 'Genetic', 'Microbiology and Immunolog', 
                 'Physic', 'Frontier Physic', 'Wildlife Conservatio', 'Statistic', 'Mathematic', 'Accountin', 'Business La', 'Global Busines', 
                 'Financial Economic', 'Economic', 'Financ', 'Human Resource Managemen', 'Managemen', 'Business Managemen', 
                 'Enterprise and Innovatio', 'Marketin','Business Analytic', 'Quantum Computin', 'Automation and Robotics Engineerin', 
                 'Biomedical Engineerin', 'Chemical Engineerin', 'Civil Engineerin', 'Environmental Engineerin', 
-                'Electrical and Electronic Engineerin', 'Mechanical Engineerin', 'Mining Engineerin', 'Software Engineerin' ] 
+                'Electrical and Electronic Engineerin', 'Mechanical Engineerin', 'Mining Engineerin', 'Software Engineerin', 
+                'Biodiversity and Evolutio', 'Spanish Studie'] 
 
 correctMajors = ['Anthropology', 'Applied Human Geography', 
                 'Archaeology', 'Asian Studies', 'CHNSA Chinese Studies', 'CHNSB Chinese Studies', 'CHNSI Chinese Studies', 
@@ -36,7 +37,8 @@ correctMajors = ['Anthropology', 'Applied Human Geography',
                 'Financial Economics', 'Economics', 'Finance', 'Human Resource Management', 'Management', 'Business Management', 
                 'Enterprise and Innovation', 'Marketing','Business Analytics', 'Quantum Computing', 'Automation and Robotics Engineering', 
                 'Biomedical Engineering', 'Chemical Engineering', 'Civil Engineering', 'Environmental Engineering', 
-                'Electrical and Electronic Engineering', 'Mechanical Engineering', 'Mining Engineering', 'Software Engineering' ] 
+                'Electrical and Electronic Engineering', 'Mechanical Engineering', 'Mining Engineering', 'Software Engineering',
+                'Biodiversity and Evolution', 'Spanish Studies'] 
 
 missedMajors = [ 'Environmental Geography and Planning', 'Geographical and Spatial Science', 'Social and Environmental Sustainability', 
                 'Wildlife Conservation', 'Environmental Science and Management', 'Marine Science', 'Agribusiness and Agricultural Science', 
@@ -45,7 +47,7 @@ missedMajors = [ 'Environmental Geography and Planning', 'Geographical and Spati
                 'Humanities in Health and Medicine', 'Art History and Curatorial Studies', 'Human Sciences and Data Analytics',
                 'Business Management', 'Enterprise and Innovation', 'Global Business', 'Financial Economics', 'Economics', 
                 'Music','Integrated Earth and Marine Sciences', 'Geochemistry', 'Biodiversity and Evolution', 'Plant Biology', 
-                'Biodiversity and Evolutio', 'Spanish Studie', 'Molecular Life Sciences', 'Human Genomics', 
+                'Molecular Life Sciences', 'Human Genomics', 
                 'Human Sciences (Anatomy and Physiology)', 'Pharmaceutical Health', 'Biochemistry of Nutrition', 
                 'Pathology and Laboratory Medicine', 'Pharmacology and Toxicology','Frontier Physics', 
                 'Integrated Medical Sciences and Clinical Practice', 'Integrated Dental Sciences', 'Sport Science, Exercise and Health',

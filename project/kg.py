@@ -8,21 +8,21 @@ def parseData():
     onto = get_ontology("./onto.owl").load()
     
     with onto:
-        
-        degreeMap = {}
-        majorMap = {}
-        majorTitleToCodeMap = {}
-        outcomeMap = {}
-        unitMap = {}
-        locationMap = {}
-        modeMap = {}
-        teachingPeriodMap = {}
-        assessmentMap = {}
-        contactTypeMap = {}
+        degreeMap = {} # key - code
+        combinedDegreeMap = {} #for combined undergraduate only
+        degreeTitleToCodeMap = {} # key - title
+        majorMap = {} # key - code
+        majorTitleToCodeMap = {} # key - title
+        outcomeMap = {} # key - outcome desc
+        unitMap = {} # key - code
+        locationMap = {} # key - name
+        modeMap = {} # key - name
+        teachingPeriodMap = {} # key - name
+        assessmentMap = {} # key - name
+        contactTypeMap = {} # key - name
         
         with open("finalData/degrees.json", "r") as f:
             data = json.load(f)
-            
             for key in data:
                 deg = data[key]
                 
@@ -32,11 +32,13 @@ def parseData():
                     degreeMap[key] = onto.HonoursDegree(key)
                 else:
                     degreeMap[key] = onto.CombinedBachelorDegree(key)
+                    combinedDegreeMap[key] = degreeMap[key]
                 # only degree types given in degrees.json are of Bachelors, Honours or Combined Bachelors
                 
                 cur = degreeMap[key]
                 cur.hasDegreeCode = deg['code']
                 cur.hasDegreeTitle = deg['title']
+                degreeTitleToCodeMap[deg["title"]] = deg["code"]
                 cur.hasDegreeSchool = deg['school']
                 cur.hasTotalCreditPoints = deg['total_points']
                 cur.hasStandardFullTimeDuration = deg['standard_full_time_completion']
@@ -50,12 +52,11 @@ def parseData():
         
         with open("finalData/majors.json", "r") as f:
             data = json.load(f)
-            
             for key in data:
                 maj = data[key]
                 majorMap[key] = onto.Major(key)
                 cur = majorMap[key]
-                
+              
                 cur.hasMajorCode = maj['code']
                 cur.hasMajorTitle = maj['title']
                 majorTitleToCodeMap[maj['title']] = maj['code']
@@ -77,16 +78,16 @@ def parseData():
                             degreeMap[cour] = onto.HonoursDegree(cour)
                         elif cour[:2] == "CB":
                             degreeMap[cour] = onto.CombinedBachelorDegree(cour)
+                            combinedDegreeMap[cour] = degreeMap[cour]
                         elif cour[:2] == "CM":
                             degreeMap[cour] = onto.CombinedBachelorMastersDegree(cour)
                         else:
                             degreeMap[cour] = onto.MastersDegree(cour)
                         
                     cur.isAvailableInDegree.append(degreeMap[cour])
-                    
+        
         with open("finalData/units.json", "r") as f:
             data = json.load(f)
-            
             for key in data:
                 unit = data[key]
                 unitMap[key] = onto.Unit(key)
@@ -123,18 +124,14 @@ def parseData():
                     for majTitle in unit['majors']:
                         #flag = True
                         if majorTitleToCodeMap.get(majTitle) is None:
-                            pass
+                            newInst = onto.Major()
+                            newInst.hasMajorTitle = majTitle
+                            majorMap[newInst.name] = newInst
+                            majorTitleToCodeMap[majTitle] = newInst.name
                         else:
                             cur.isInMajors.append(majorMap[majorTitleToCodeMap[majTitle]])
-                        """
-                        for i in majorMap:
-                            if majorMap[i].hasMajorTitle == maj:
-                                
-                                flag = False
-                                break
-                        if flag:
-                            pass"""
-                        #WIP, decision needs to be made on if unit codes should be added    
+                        #Majors that only exist by title in units.json will still be instantiated
+                        #Their final-level UID will use the default incremental ID (though this is not added as a major's code)
                     
                 for out in unit['outcomes']:
                     outcome = onto.Outcome(out)
@@ -163,6 +160,7 @@ def parseData():
                                 degreeMap[cour] = onto.HonoursDegree(cour)
                             elif cour[:2] == "CB":
                                 degreeMap[cour] = onto.CombinedBachelorDegree(cour)
+                                combinedDegreeMap[cour] = degreeMap[cour]
                             elif cour[:2] == "CM":
                                 degreeMap[cour] = onto.CombinedBachelorMastersDegree(cour)
                             else:
@@ -178,14 +176,43 @@ def parseData():
                         contact.hasContactType = contactTypeMap[cont]
                         contact.hasContactHours = unit['contact'][cont]
                         cur.hasContactRequirement.append(contact)
-                
+        
+        
+        #final degree processing 
+        with open("finalData/degrees.json", "r") as f:
+            data = json.load(f)
+            for key in data:
+                deg = data[key]
+                degInst = degreeMap[key]
+                if deg.get("majors") is not None:
+                    for maj in deg["majors"]:
+                        degInst.hasMajors.append(majorMap[maj])
+        
+        for cb in combinedDegreeMap:
+            cbDeg = combinedDegreeMap[cb]
+            if cbDeg.hasDegreeTitle:
+                degs = cbDeg.hasDegreeTitle.split(" and ")
+                if len(degs) == 2:
+                    deg1 = degs[0]
+                    deg2 = degs[1]
+                    cbDeg.comprisesDegrees.append(degreeMap[degreeTitleToCodeMap[deg1]])
+                    cbDeg.comprisesDegrees.append(degreeMap[degreeTitleToCodeMap[deg2]])
+                else:
+                    degs = cbDeg.hasDegreeTitle.split("/ ")
+                    if len(degs) == 2:
+                        deg1 = degs[0]
+                        deg2 = degs[1]
+                        cbDeg.comprisesDegrees.append(degreeMap[degreeTitleToCodeMap[deg1]])
+                        cbDeg.comprisesDegrees.append(degreeMap[degreeTitleToCodeMap[deg2]])
+            # combined degrees without titles are skipped as they are the ones found with only their code
+            # (can still reason on and query with their partial instances)
+            
+        #final unit processing
         with open("finalData/units.json", "r") as f:
             data = json.load(f)
-                    
             for key in data:
                 unit = data[key]
                 cur = unitMap[key]
-                
                 if unit.get("prerequisite_units") is not None:
                     prereqs = unit["prerequisite_units"]
                     for division in prereqs:
@@ -205,6 +232,7 @@ def parseData():
                         #only units are assumed to be in the range of advisable prior study
                         #the nature of the data has incorrectly set it as majors for some
         
+        #final major processing
         with open("finalData/majors.json", "r") as f:
             data = json.load(f)
             for key in data:
@@ -219,13 +247,33 @@ def parseData():
                 # an elective, in the context of a major, is assumed to be any unit outside of that major
                 # 'units' is thus assumed to be core units (optional units are not modelled)
         
-    with onto:
-        sync_reasoner()
-        print(unitMap["CITS3001"].hasPrerequisiteUnits)
-        
-       
+    #with onto:
+        #sync_reasoner()
         
     onto.save("onto.owl", format="rdfxml")
     
-    
 parseData()
+
+
+
+def runQueries():
+    onto = get_ontology("./onto.owl").load()
+    
+    q1 = list(default_world.sparql("""
+        SELECT ?deg ?unit
+        WHERE {
+            FILTER NOT EXISTS {
+                ?deg onto:hasMajors ?maj .
+                
+                FILTER NOT EXISTS {
+                    ?maj onto:hasBridgingUnits ?unit .
+                    ?maj onto:hasCoreUnits ?unit .
+                }
+            }
+        }
+
+    """))
+    
+    print(q1)
+    
+#runQueries()
