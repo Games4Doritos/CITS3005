@@ -1,4 +1,5 @@
 from owlready2 import *
+from rdflib import OWL, RDFS, Namespace
 import owlready2
 import json
 
@@ -64,7 +65,7 @@ def parseData():
                 cur.hasMajorDescription = maj['description']
                 
                 for out in maj['outcomes']:
-                    outcome = onto.Outcome(out)
+                    outcome = onto.Outcome()
                     outcome.hasOutcomeDescription = out
                     if outcomeMap.get(out) is None:
                         outcomeMap[out] = outcome
@@ -134,7 +135,7 @@ def parseData():
                         #Their final-level UID will use the default incremental ID (though this is not added as a major's code)
                     
                 for out in unit['outcomes']:
-                    outcome = onto.Outcome(out)
+                    outcome = onto.Outcome()
                     outcome.hasOutcomeDescription = out
                     
                     if outcomeMap.get(out) is None:
@@ -247,8 +248,8 @@ def parseData():
                 # an elective, in the context of a major, is assumed to be any unit outside of that major
                 # 'units' is thus assumed to be core units (optional units are not modelled)
         
-    #with onto:
-        #sync_reasoner()
+    with onto:
+        sync_reasoner(infer_property_values=True)
         
     onto.save("onto.owl", format="rdfxml")
     
@@ -258,22 +259,77 @@ parseData()
 
 def runQueries():
     onto = get_ontology("./onto.owl").load()
+    with onto:
+        sync_reasoner(infer_property_values=True)
+            
+    graph = default_world.as_rdflib_graph()
     
-    q1 = list(default_world.sparql("""
-        SELECT ?deg ?unit
+    graph.bind("owl", OWL)
+    graph.bind("rdfs", RDFS)
+    graph.bind("onto", Namespace("https://www.handbooks.uwa.edu.au/onto.owl#"))
+    
+    q1 = """   
+        
+        SELECT DISTINCT ?deg ?unit
         WHERE {
+            ?deg onto:hasMajors ?anyMaj .
+            ?anyMaj onto:hasUnits ?unit .
+          
             FILTER NOT EXISTS {
                 ?deg onto:hasMajors ?maj .
-                
                 FILTER NOT EXISTS {
-                    ?maj onto:hasBridgingUnits ?unit .
-                    ?maj onto:hasCoreUnits ?unit .
+                    ?maj onto:hasUnits ?unit. 
+                } 
+            }
+        }
+    """
+    
+    q2 = """
+        SELECT ?degType (AVG(?options) AS ?avgMajors)
+        WHERE {
+            ?degType rdfs:subClassOf onto:UndergraduateDegree .
+            {
+                SELECT ?degType ?deg (COUNT(?maj) as ?options)
+                WHERE {
+                    ?deg a ?degType .
+                    ?deg onto:hasMajors ?maj .
+                    
+                }
+                GROUP BY ?degType ?deg
+            }
+        }
+        GROUP BY ?degType
+    """
+    
+    q3 = """ 
+        SELECT ?maj
+        WHERE {
+            ?maj a onto:Major .
+            FILTER NOT EXISTS {
+                ?maj onto:hasUnits ?unit .
+                FILTER NOT EXISTS {
+                    ?unit onto:hasUnitLocations onto:Albany .
                 }
             }
         }
-
-    """))
+    """
+    string = "data"
     
-    print(q1)
+    q4 = f"""
+        SELECT ?maj
+        WHERE {{
+            ?maj a onto:Major .
+            ?maj onto:hasMajorOutcomes ?out .
+            ?out onto:hasOutcomeDescription ?desc .
+            FILTER(
+                CONTAINS(?desc, "{string}")
+            )
+        }}  
+    """
     
-#runQueries()
+    
+    q1Res = list(graph.query(q4))
+    
+    print(q1Res)
+    
+runQueries()

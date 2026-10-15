@@ -69,10 +69,6 @@ with onto:
         domain = [UnitSet]
         range = [Unit]
     
-    class hasOutcomeDescription(DataProperty, FunctionalProperty):
-        domain = [Outcome]
-        range = [str]
-    
     class hasCode(DataProperty, FunctionalProperty):
         domain = [Thing]
         range = [str]
@@ -87,6 +83,10 @@ with onto:
     
     class hasDescription(DataProperty, FunctionalProperty):
         domain = [Thing]
+        range = [str]
+        
+    class hasOutcomeDescription(hasDescription):
+        domain = [Outcome]
         range = [str]
     
     class hasOutcomes(ObjectProperty):
@@ -133,14 +133,6 @@ with onto:
         domain = [Major]
         range = [Degree]
         
-    class hasMajorLocations(hasLocations):
-        domain = [Major]
-        range = [Location]
-    
-    class hasUnits(ObjectProperty):
-        domain = [Major]
-        range = [Unit]
-        
     class hasCoreUnits(hasUnits):
         domain = [Major]
         range = [Unit]
@@ -181,7 +173,7 @@ with onto:
         
     class comprisesDegrees(ObjectProperty):
         domain = [CombinedBachelorDegree]
-        domain = [BachelorDegree | HonoursDegree]
+        range = [BachelorDegree | HonoursDegree]
         
     #<================================= Unit Properties =================================>
     class hasUnitCode(hasCode):
@@ -260,10 +252,10 @@ with onto:
         range = [Degree]
         inverse_property = hasDegreeLocations
     
-    class hasMajorsAvailable(ObjectProperty):
+    class hasUnitsAvailable(ObjectProperty):
         domain = [Location]
-        range = [Major]
-        inverse_property = hasMajorLocations
+        range = [Unit]
+        inverse_property = hasUnitLocations
         
     #<================================= Rules =================================>
     unitChainRule = Imp()
