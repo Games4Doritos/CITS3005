@@ -1,7 +1,20 @@
+from owlready2 import *
 
+"""
+
+
+
+"""
 
 def main():
-    pass
+    onto = get_ontology("onto.owl").load()
+    
+    with onto:
+        sync_reasoner()
+    
+  
+    for i in onto.hasMajors.get_relations():
+        print(i)
 
 
 

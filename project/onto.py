@@ -65,7 +65,7 @@ with onto:
         pass
     
     #<================================= Base Properties =================================>
-    class hasUnits(ObjectProperty):
+    class hasUnit(ObjectProperty):
         domain = [UnitSet]
         range = [Unit]
     
@@ -89,15 +89,15 @@ with onto:
         domain = [Outcome]
         range = [str]
     
-    class hasOutcomes(ObjectProperty):
+    class hasOutcome(ObjectProperty):
         domain = [Thing]
         range = [Outcome]
     
-    class hasLocations(ObjectProperty):
+    class hasLocation(ObjectProperty):
         domain = [Thing]
         range = [Location]
     
-    class hasPrerequisites(ObjectProperty, TransitiveProperty):
+    class hasPrerequisite(ObjectProperty, TransitiveProperty):
         pass
         
     class hasContactType(ObjectProperty, FunctionalProperty):
@@ -117,7 +117,7 @@ with onto:
         domain = [Major]
         range = [str]
         
-    class hasMajorSchool(hasSchool):
+    class hasMajorchool(hasSchool):
         domain = [Major]
         range = [str]
         
@@ -125,7 +125,7 @@ with onto:
         domain = [Major]
         range = [str]
         
-    class hasMajorOutcomes(hasOutcomes):
+    class hasMajorOutcome(hasOutcome):
         domain = [Major]
         range = [Outcome]
     
@@ -133,16 +133,16 @@ with onto:
         domain = [Major]
         range = [Degree]
         
-    class hasCoreUnits(hasUnits):
+    class hasCoreUnit(hasUnit):
         domain = [Major]
         range = [Unit]
    
-    class hasBridgingUnits(hasUnits):
+    class hasBridgingUnit(hasUnit):
         domain = [Major]
         range = [Unit]
    
     #<================================= Degree Properties =================================>
-    class hasMajors(ObjectProperty):
+    class hasMajor(ObjectProperty):
         domain = [Degree]
         range = [Major]
         inverse_property = isAvailableInDegree
@@ -167,11 +167,11 @@ with onto:
         domain = [Degree]
         range = [str]
     
-    class hasDegreeLocations(hasLocations):
+    class hasDegreeLocation(hasLocation):
         domain = [Degree]
         range = [Location]
         
-    class comprisesDegrees(ObjectProperty):
+    class comprisesDegree(ObjectProperty):
         domain = [CombinedBachelorDegree]
         range = [BachelorDegree | HonoursDegree]
         
@@ -184,7 +184,7 @@ with onto:
         domain = [Unit]
         range = [str]
         
-    class hasUnitSchool(hasSchool):
+    class hasUnitchool(hasSchool):
         domain = [Unit]
         range = [str]
     
@@ -200,28 +200,28 @@ with onto:
         domain = [Unit]
         range = [int]
             
-    class hasTeachingPeriods(ObjectProperty):
+    class hasTeachingPeriod(ObjectProperty):
         domain = [Unit]
         range = [TeachingPeriod]
         
-    class hasUnitLocations(hasLocations):
+    class hasUnitLocation(hasLocation):
         domain = [Unit]
         range = [Location]
 
-    class hasUnitModes(ObjectProperty):
+    class hasUnitMode(ObjectProperty):
         domain = [Unit]
         range = [UnitMode]
         
-    class isInMajors(ObjectProperty):
+    class isInMajor(ObjectProperty):
         domain = [Unit]
         range = [Major]
-        inverse_property = hasUnits
+        inverse_property = hasUnit
         
-    class hasUnitOutcomes(hasOutcomes):
+    class hasUnitOutcome(hasOutcome):
         domain = [Unit]
         range = [Outcome]
     
-    class hasUnitAssessments(ObjectProperty):
+    class hasUnitAssessment(ObjectProperty):
         domain = [Unit]
         range = [Assessment]
         
@@ -229,11 +229,11 @@ with onto:
         domain = [Unit]
         range = [str]
     
-    class hasPrerequisiteDegrees(hasPrerequisites):
+    class hasPrerequisiteDegree(hasPrerequisite):
         domain = [Unit]
         range = [Degree]
     
-    class hasPrerequisiteUnits(hasPrerequisites, TransitiveProperty):
+    class hasPrerequisiteUnit(hasPrerequisite, TransitiveProperty):
         domain = [Unit]
         range = [Unit]
         
@@ -247,34 +247,34 @@ with onto:
         
     #<================================= Location Properties =================================>
         
-    class hasDegreesAvailable(ObjectProperty):
+    class hasDegreeAvailable(ObjectProperty):
         domain = [Location]
         range = [Degree]
-        inverse_property = hasDegreeLocations
+        inverse_property = hasDegreeLocation
     
-    class hasUnitsAvailable(ObjectProperty):
+    class hasUnitAvailable(ObjectProperty):
         domain = [Location]
         range = [Unit]
-        inverse_property = hasUnitLocations
+        inverse_property = hasUnitLocation
         
     #<================================= Rules =================================>
     unitChainRule = Imp()
-    unitChainRule.set_as_rule("Unit(?u), Major(?m), hasCoreUnits(?m, ?u), hasUnitOutcomes(?u, ?o) -> hasMajorOutcomes(?m, ?o)")
+    unitChainRule.set_as_rule("Unit(?u), Major(?m), hasCoreUnit(?m, ?u), hasUnitOutcome(?u, ?o) -> hasMajorOutcome(?m, ?o)")
     
     #B Phil assumed to exist
     bPhil = HonoursDegree("BH005")
     bPhilRule = Imp()
-    bPhilRule.set_as_rule("Major(?m), UndergraduateDegree(?d), hasMajors(?d, ?m) -> hasMajors(BH005, ?m)")
+    bPhilRule.set_as_rule("Major(?m), UndergraduateDegree(?d), hasMajor(?d, ?m) -> hasMajor(BH005, ?m)")
     
     majorSharedRule = Imp()
-    majorSharedRule.set_as_rule("Major(?m), Degree(?d), hasMajors(?d, ?m), comprisesDegrees(?cb, ?d) -> hasMajors(?cb, ?m)")
+    majorSharedRule.set_as_rule("Major(?m), Degree(?d), hasMajor(?d, ?m), comprisesDegree(?cb, ?d) -> hasMajor(?cb, ?m)")
     
     
     
     #<================================= Restrictions =================================>
     
-    Degree.is_a.append(hasMajors.some(Major))
-    CombinedBachelorDegree.is_a.append(comprisesDegrees.exactly(2))
+    Degree.is_a.append(hasMajor.some(Major))
+    CombinedBachelorDegree.is_a.append(comprisesDegree.exactly(2))
     
     
     
