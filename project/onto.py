@@ -92,17 +92,25 @@ with onto:
     class hasOutcome(ObjectProperty):
         domain = [Thing]
         range = [Outcome]
+        
+    class hasAssessmentDescription(hasDescription):
+        domain = [Assessment]
+        range = [str]
     
     class hasLocation(ObjectProperty):
         domain = [Thing]
         range = [Location]
     
-    class hasPrerequisite(ObjectProperty, TransitiveProperty):
+    class hasPrerequisite(ObjectProperty):
         pass
         
     class hasContactType(ObjectProperty, FunctionalProperty):
         domain = [ContactRequirement]
         range = [ContactType]
+        
+    class hasContactTypeDescription(DataProperty, FunctionalProperty):
+        domain = [ContactType]
+        range = [str]
         
     class hasContactHours(DataProperty, FunctionalProperty):
         domain = [ContactRequirement]
@@ -117,7 +125,7 @@ with onto:
         domain = [Major]
         range = [str]
         
-    class hasMajorchool(hasSchool):
+    class hasMajorSchool(hasSchool):
         domain = [Major]
         range = [str]
         
@@ -233,7 +241,7 @@ with onto:
         domain = [Unit]
         range = [Degree]
     
-    class hasPrerequisiteUnit(hasPrerequisite, TransitiveProperty):
+    class hasPrerequisiteUnit(hasPrerequisite):
         domain = [Unit]
         range = [Unit]
         
@@ -258,20 +266,21 @@ with onto:
         inverse_property = hasUnitLocation
         
     #<================================= Rules =================================>
+    transitivePrereqRule = Imp()
+    transitivePrereqRule.set_as_rule("Unit(?a), Unit(?b), Unit(?c), hasPrerequisiteUnit(?a, ?b), hasPrerequisiteUnit(?b, ?c) -> hasPrerequisiteUnit(?a, ?c) ")
+    
     unitChainRule = Imp()
     unitChainRule.set_as_rule("Unit(?u), Major(?m), hasCoreUnit(?m, ?u), hasUnitOutcome(?u, ?o) -> hasMajorOutcome(?m, ?o)")
     
     #B Phil assumed to exist
     bPhil = HonoursDegree("BH005")
     bPhilRule = Imp()
-    bPhilRule.set_as_rule("Major(?m), UndergraduateDegree(?d), hasMajor(?d, ?m) -> hasMajor(BH005, ?m)")
+    bPhilRule.set_as_rule(f"Major(?m), UndergraduateDegree(?d), hasMajor(?d, ?m) -> hasMajor({bPhil.name}, ?m)")
     
     majorSharedRule = Imp()
     majorSharedRule.set_as_rule("Major(?m), Degree(?d), hasMajor(?d, ?m), comprisesDegree(?cb, ?d) -> hasMajor(?cb, ?m)")
     
-    
-    
-    #<================================= Restrictions =================================>
+    #<================================= Constraints =================================>
     
     Degree.is_a.append(hasMajor.some(Major))
     CombinedBachelorDegree.is_a.append(comprisesDegree.exactly(2))

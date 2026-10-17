@@ -40,20 +40,6 @@ correctMajors = ['Anthropology', 'Applied Human Geography',
                 'Electrical and Electronic Engineering', 'Mechanical Engineering', 'Mining Engineering', 'Software Engineering',
                 'Biodiversity and Evolution', 'Spanish Studies'] 
 
-missedMajors = [ 'Environmental Geography and Planning', 'Geographical and Spatial Science', 'Social and Environmental Sustainability', 
-                'Wildlife Conservation', 'Environmental Science and Management', 'Marine Science', 'Agribusiness and Agricultural Science', 
-                'Environmental Science and Ecology','International Relations', 'Media and Communication', 'Human Rights', 
-                'Philosophy, Politics and Economics','Criminology and Criminal Justice', 'Psychology', 'Human Science and Neuroscience', 
-                'Humanities in Health and Medicine', 'Art History and Curatorial Studies', 'Human Sciences and Data Analytics',
-                'Business Management', 'Enterprise and Innovation', 'Global Business', 'Financial Economics', 'Economics', 
-                'Music','Integrated Earth and Marine Sciences', 'Geochemistry', 'Biodiversity and Evolution', 'Plant Biology', 
-                'Molecular Life Sciences', 'Human Genomics', 
-                'Human Sciences (Anatomy and Physiology)', 'Pharmaceutical Health', 'Biochemistry of Nutrition', 
-                'Pathology and Laboratory Medicine', 'Pharmacology and Toxicology','Frontier Physics', 
-                'Integrated Medical Sciences and Clinical Practice', 'Integrated Dental Sciences', 'Sport Science, Exercise and Health',
-                'Podiatric Health and Medical Sciences', 'Medical Science', 'Aboriginal Health and Wellbeing [not available in 2026]'
-                ]
-
 with open("rawData/degrees.json", "r") as f:
     data = f.read()
     with open("finalData/degrees.json", "w") as out:
@@ -123,6 +109,11 @@ with open("rawData/units.json", "r") as f:
        
         if unit.get("contact") is not None:
             for cont in list(unit["contact"]):
+                if cont.lstrip("/") != cont:
+                    new = cont.lstrip("/")
+                    hours = unit["contact"][cont]
+                    unit["contact"].pop(cont)
+                    unit["contact"][new] = hours
                 if cont.removeprefix("of").strip() != cont:
                     new = cont.removeprefix("of").strip()
                     hours = unit["contact"][cont]
@@ -133,6 +124,7 @@ with open("rawData/units.json", "r") as f:
                     hours = unit["contact"][cont]
                     unit["contact"].pop(cont)
                     unit["contact"][new] = hours
+            #strip any leading '/'
             #strip any 'and' trailing either end of a contact type
             #strip any 'of' at the start of a contact type
                     

@@ -13908,7 +13908,7 @@
       ]
     ],
     "contact": {
-      "/week": 3
+      "week": 3
     }
   },
   "KORE3408": {
@@ -13949,7 +13949,7 @@
       ]
     ],
     "contact": {
-      "/week": 3
+      "week": 3
     }
   },
   "LING1001": {
@@ -20318,7 +20318,7 @@
       "ANHB1102"
     ],
     "contact": {
-      "/week - Self-directed completion of online course content and continuous assessment. 1.5 hours/week - In-person laboratory classes": 3
+      "week - Self-directed completion of online course content and continuous assessment. 1.5 hours/week - In-person laboratory classes": 3
     }
   },
   "ANHB2216": {
@@ -24674,7 +24674,7 @@
       ]
     ],
     "contact": {
-      "/week labs 2x1hour/week Prac 1.5hours/week for 10 weeks": 2
+      "week labs 2x1hour/week Prac 1.5hours/week for 10 weeks": 2
     }
   },
   "GENE2220": {
@@ -27246,7 +27246,7 @@
       ]
     ],
     "contact": {
-      "/week labs 1hour/week": 3
+      "week labs 1hour/week": 3
     }
   },
   "SSEH3554": {
@@ -27289,7 +27289,7 @@
       ]
     ],
     "contact": {
-      "/week labs 2hours/week": 3
+      "week labs 2hours/week": 3
     }
   },
   "ANIM2207": {

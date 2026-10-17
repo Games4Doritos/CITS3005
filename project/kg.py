@@ -4,7 +4,7 @@ import owlready2
 import json
 import re
 
-owlready2.JAVA_EXE = r"C:\Program Files\Java\jre1.8.0_503\bin\java.exe"
+owlready2.JAVA_EXE = r"C:\Program Files\Java\jdk-25.0.4.1\bin\java.exe"
 
 invalidChars = re.compile(u'[^\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD\U00010000-\U0010FFFF]')
 
@@ -29,6 +29,7 @@ def parseData():
         modeMap = {} # key - name
         teachingPeriodMap = {} # key - name
         assessmentMap = {} # key - name
+        contactMap = {} # key - "name int"
         contactTypeMap = {} # key - name
         
         with open("finalData/degrees.json", "r") as f:
@@ -79,11 +80,11 @@ def parseData():
                 cur.hasMajorDescription = maj['description']
                 
                 for out in maj['outcomes']:
-                    outcome = onto.Outcome()
-                    outcome.hasOutcomeDescription = out
                     if outcomeMap.get(out) is None:
+                        outcome = onto.Outcome()
+                        outcome.hasOutcomeDescription = out
                         outcomeMap[out] = outcome
-                    cur.hasMajorOutcome.append(outcome)
+                    cur.hasMajorOutcome.append(outcomeMap[out])
                 
                 for cour in maj['courses']:
                     if degreeMap.get(cour) is None:
@@ -154,19 +155,18 @@ def parseData():
                         #Their final-level UID will use the default incremental ID (though this is not added as a major's code)
                     
                 for out in unit['outcomes']:
-                    outcome = onto.Outcome()
-                    outcome.hasOutcomeDescription = out
-                    
                     if outcomeMap.get(out) is None:
+                        outcome = onto.Outcome()
+                        outcome.hasOutcomeDescription = out
                         outcomeMap[out] = outcome
-                    cur.hasUnitOutcome.append(outcome)
+                    cur.hasUnitOutcome.append(outcomeMap[out])
                 
                 for assess in unit['assessment']:
-                    assessment = onto.Assessment(assess)
-                    
                     if assessmentMap.get(assess) is None:
+                        assessment = onto.Assessment()
+                        assessment.hasAssessmentDescription = assess
                         assessmentMap[assess] = assessment
-                    cur.hasUnitAssessment.append(assessment)
+                    cur.hasUnitAssessment.append(assessmentMap[assess])
                 
                 if unit.get("prerequisites_text") is not None:
                     cur.hasPrerequisiteText = unit['prerequisites_text']
@@ -190,12 +190,16 @@ def parseData():
                 
                 if unit.get("contact") is not None: 
                     for cont in unit['contact']:
-                        contact = onto.ContactRequirement()
                         if contactTypeMap.get(cont) is None:
-                            contactTypeMap[cont] = onto.ContactType(cont)
-                        contact.hasContactType = contactTypeMap[cont]
-                        contact.hasContactHours = unit['contact'][cont]
-                        cur.hasContactRequirement.append(contact)
+                            contactTypeMap[cont] = onto.ContactType()
+                            contactTypeMap[cont].hasContactTypeDescription = cont
+                        # unique contact type, then unique contact type - hours pair
+                        if contactMap.get(f"{cont} {unit['contact'][cont]}") is None:
+                            contact = onto.ContactRequirement()
+                            contact.hasContactType = contactTypeMap[cont]
+                            contact.hasContactHours = unit['contact'][cont]
+                            contactMap[f"{cont} {unit['contact'][cont]}"] = contact
+                        cur.hasContactRequirement.append(contactMap[f"{cont} {unit['contact'][cont]}"])
         
         
         #final degree processing 
@@ -266,9 +270,9 @@ def parseData():
                     cur.hasCoreUnit.append(unitMap[unit])
                 # an elective, in the context of a major, is assumed to be any unit outside of that major
                 # 'units' is thus assumed to be core units (optional units are not modelled)
-        
+    onto.save("onto.owl", format="rdfxml")
     with onto:
-        sync_reasoner(infer_property_values=True)
+        sync_reasoner_pellet(infer_property_values=True)
         
     onto.save("onto.owl", format="rdfxml")
     
@@ -279,7 +283,7 @@ parseData()
 def runQueries():
     onto = get_ontology("./onto.owl").load()
     with onto:
-        sync_reasoner(infer_property_values=True)
+        sync_reasoner_pellet(infer_property_values=True)
             
     graph = default_world.as_rdflib_graph()
     
@@ -346,9 +350,10 @@ def runQueries():
         }}  
     """
     
-    
-    q1Res = list(graph.query(q4))
-    
+    q1Res = list(graph.query(q1))
+    q2Res = list(graph.query(q2))
+    q3Res = list(graph.query(q3))
+    q4Res = list(graph.query(q4))
     print(q1Res)
     
-#runQueries()
+runQueries()
